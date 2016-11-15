@@ -1,0 +1,32 @@
+Software:
+
+    System Software Overview:
+
+      System Version: OS X 10.11.6 (15G1004)
+      Kernel Version: Darwin 15.6.0
+      Boot Volume: Macintosh HD
+      Boot Mode: Normal
+      Computer Name: fugace frammento informatico
+      User Name: Francesco  (VeaVictis)
+      Secure Virtual Memory: Enabled
+      System Integrity Protection: Enabled
+      Time since boot: 2:01
+
+Hardware:
+
+    Hardware Overview:
+
+      Model Name: MacBook Pro
+      Model Identifier: MacBookPro11,2
+      Processor Name: Intel Core i7
+      Processor Speed: 2,2 GHz
+      Number of Processors: 1
+      Total Number of Cores: 4
+      L2 Cache (per Core): 256 KB
+      L3 Cache: 6 MB
+      Memory: 16 GB
+      Boot ROM Version: MBP112.0138.B17
+      SMC Version (system): 2.18f15
+      Serial Number (system): C02N71MWG3QN
+      Hardware UUID: 1E775335-ED05-53CA-BA87-DFB9DB2C61FA
+

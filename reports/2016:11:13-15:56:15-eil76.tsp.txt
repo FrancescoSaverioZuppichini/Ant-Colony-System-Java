@@ -1,0 +1,9 @@
+/Users/VeaVictis/Documents/Usi/V Semester/Artificial Intelligence/AI_Cup_JAVA/reports/2016:11:13-15:56:15-eil76.tsp.txt
+VERSION:5.0 create not initialize
+PARAMS: alpha= 1.0 beta= 5 ant= 10 memory=0.05 q= 0.95
+ITERATION: 355.3719008264463
+SEED: 2458636491206197133
+TOUR: [39, 11, 57, 71, 38, 8, 31, 43, 2, 15, 62, 32, 0, 72, 61, 21, 63, 41, 42, 40, 55, 22, 48, 23, 17, 49, 24, 54, 30, 9, 37, 64, 10, 65, 58, 13, 52, 6, 34, 7, 18, 53, 12, 56, 14, 4, 36, 19, 69, 59, 70, 68, 35, 46, 20, 60, 27, 73, 1, 29, 47, 28, 44, 26, 51, 45, 33, 66, 25, 75, 74, 3, 67, 5, 50, 16]
+COST: 538
+ERROR: 0.0
+ 
