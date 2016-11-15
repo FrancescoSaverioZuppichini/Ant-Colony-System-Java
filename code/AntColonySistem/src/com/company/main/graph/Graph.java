@@ -11,11 +11,6 @@ import java.util.Arrays;
  */
 public class Graph {
     private ArrayList<City> nodes;
-
-    public int[] getCities() {
-        return cities;
-    }
-
     private int[] cities;
     private int index;
     private int problemSize;
@@ -140,9 +135,18 @@ public class Graph {
         return nodes;
     }
 
+    public int[] getCities() {
+        return cities;
+    }
+
     public int[][] getDistanceMatrix() {
         return distanceMatrix;
     }
+
+    public double[][] getInverseDistanceMatrix() {
+        return inverseDistanceMatrix;
+    }
+
 
     public int getBestKnowSolution() {
         return bestKnowSolution;
@@ -152,7 +156,4 @@ public class Graph {
         this.bestKnowSolution = bestKnowSolution;
     }
 
-    public double[][] getInverseDistanceMatrix() {
-        return inverseDistanceMatrix;
-    }
 }

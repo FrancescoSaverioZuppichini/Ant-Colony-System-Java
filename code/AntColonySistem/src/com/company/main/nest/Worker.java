@@ -204,20 +204,20 @@ public class Worker {
         double number = this.magic.nextDouble();
 
 //        TODO decide if use or not the NNlist in exploration -> now i just removed it
-//        for (int i = 0; i < this.NNsize; i++) {
-//
-//            final int NNCity = this.NNList[this.currentPosition][i];
-//            if (this.isVisited(NNCity) != 1) {
-////              multiplication is faster
-//                final double res = this.probabilityMatrix[this.currentPosition][i] * probabilityOnEdges;
-//                if (res + max >= number) {
-//                    bestCity = NNCity;
-//                    break;
-//                }
-//
-//
-//            }
-//        }
+        for (int i = 0; i < this.NNsize; i++) {
+
+            final int NNCity = this.NNList[this.currentPosition][i];
+            if (this.isVisited(NNCity) != 1) {
+//              multiplication is faster
+                final double res = this.probabilityMatrix[this.currentPosition][i] * probabilityOnEdges;
+                if (res + max >= number) {
+                    bestCity = NNCity;
+                    break;
+                }
+
+
+            }
+        }
 
         if (bestCity == -1) {
             max = 0;
@@ -329,18 +329,6 @@ public class Worker {
 
     private int isVisited(int city) {
         return this.visitedMap[city];
-    }
-
-    public void resetWorker() {
-//        TODO this is not working
-        this.hasMemory = false;
-        this.currentPosition = -1;
-        this.start = -1;
-        this.state = 0;
-//        erase memory
-//        this.citiesVisited = new int[this.problemSize];
-        this.visitedMap = new byte[this.problemSize];
-        this.totalCost = 0;
     }
 
     public int getSteps() {

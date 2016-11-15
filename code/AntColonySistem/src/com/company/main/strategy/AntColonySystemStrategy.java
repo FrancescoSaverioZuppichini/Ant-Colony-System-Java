@@ -1,7 +1,6 @@
 package com.company.main.strategy;
 
 import com.company.main.graph.Graph;
-import com.company.main.graph.Tour;
 import com.company.main.nest.Worker;
 
 import java.io.PrintWriter;
@@ -28,6 +27,7 @@ public class AntColonySystemStrategy implements Algorithm {
     private int beta;
     private double memory;
     private double q;
+    private NearestNeighbourStrategy nearestNeighbourStrategy;
     private TwoOptStrategy twoOptStrategy;
     private Worker[] workers;
     private Worker bestWorker;
@@ -35,11 +35,10 @@ public class AntColonySystemStrategy implements Algorithm {
 
     private long seed;
 
-    public AntColonySystemStrategy(int nIteration, int problemSize, Tour aTour, long seed, Random magic, Graph world, double alpha,
+    public AntColonySystemStrategy(int nIteration, int problemSize, long seed, Random magic, Graph world, double alpha,
                                    int beta, double memory, double q, int nAnts) {
         this.nIteration = nIteration;
         this.problemSize = problemSize;
-        this.initialPheromone = computeInitialPheromone(aTour.getTotalCost());
         this.workers = new Worker[nAnts];
         this.state = 0;
         this.world = world;
@@ -55,8 +54,9 @@ public class AntColonySystemStrategy implements Algorithm {
         this.pheromoneMatrix = new double[problemSize][problemSize];
 //        holds a reference to the probability on each edge
         this.probabilityMatrix = new double[problemSize][problemSize];
-        this.twoOptStrategy = new TwoOptStrategy();
-        this.twoOptStrategy.setWorld(world);
+        this.twoOptStrategy = new TwoOptStrategy(world);
+        this.nearestNeighbourStrategy = new NearestNeighbourStrategy(world);
+        this.initialPheromone = computeInitialPheromone();
         this.bestWorker = null;
         this.endTime = 180000;
 
@@ -84,19 +84,16 @@ public class AntColonySystemStrategy implements Algorithm {
         }
     }
 
-
-    public void setWorld(Graph world) {
-        this.world = world;
-        this.twoOptStrategy.setWorld(world);
-    }
-
-
     private void initializeStartTime() {
         this.startTime = System.currentTimeMillis();
     }
 
-    private double computeInitialPheromone(int NNresult) {
-        return 1d / (NNresult * this.problemSize);
+    private double computeInitialPheromone() {
+        this.nearestNeighbourStrategy.setStart(this.magic.nextInt(this.problemSize));
+        this.nearestNeighbourStrategy.findSolution();
+        System.out.println(this.nearestNeighbourStrategy.getSolution());
+
+        return 1d / (nearestNeighbourStrategy.getSolution().getCost() * this.problemSize);
 
     }
 
@@ -129,27 +126,6 @@ public class AntColonySystemStrategy implements Algorithm {
         }
     }
 
-
-    private void evaporateAllPheromone() {
-        int len;
-        Worker w;
-
-        w = this.workers[0];
-
-        len = this.pheromoneMatrix.length;
-
-        for (int i = 0; i < len; i++) {
-            for (int j = i + 1; j < len; j++) {
-
-                this.pheromoneMatrix[i][j] *= 0.9;
-                this.pheromoneMatrix[j][i] *= 0.9;
-//                update probability matrix
-                this.probabilityMatrix[i][j] = w.getProbabilityOnEdge(i, j);
-                this.probabilityMatrix[j][i] = w.getProbabilityOnEdge(j, i);
-
-            }
-        }
-    }
 
     private void printStartACSState() {
         System.out.println("-------------------------------------");
@@ -213,11 +189,10 @@ public class AntColonySystemStrategy implements Algorithm {
     }
 
     private void resetWorkers() {
+//        throw workers away and re-create them
         this.createWorkers();
 
         for (Worker w : this.workers) {
-//            resetWorker not properly wrong
-//            w.resetWorker();
 
             if (w.hasMemory()) {
 //                store the state from the best ant
@@ -244,10 +219,8 @@ public class AntColonySystemStrategy implements Algorithm {
         while (!this.isFinish()) {
 //            create e full solution for each workers
             this.makeAllMoves();
-
-            //            run 2-opt on each ant
+//            run 2-opt on each ant
             this.localSearch();
-
 //            update best solution if needed
             this.checkForNewBestSolution(this.findBestWorker());
 //            update best tour

@@ -2,7 +2,7 @@ package com.company.main.strategy;
 
 import com.company.main.graph.City;
 import com.company.main.graph.Graph;
-import com.company.main.graph.Tour;
+import com.company.main.utils.Tour;
 
 import java.util.ArrayList;
 
@@ -10,13 +10,17 @@ import java.util.ArrayList;
  * Created by VeaVictis on 01/11/16.
  */
 public class NearestNeighbourStrategy implements Algorithm {
-    private Tour solution;
+    private Tour tour;
+    private int totalCost;
     private Graph world;
-
     private int start;
 
-    public NearestNeighbourStrategy(int problemSize) {
-        this.solution = new Tour(problemSize);
+    public NearestNeighbourStrategy(Graph world) {
+        this.world = world;
+        this.tour = new Tour(world.getNodes().size());
+//        dafault starting point is the first node
+        this.start = 0;
+        this.totalCost = 0;
     }
 
 
@@ -24,7 +28,7 @@ public class NearestNeighbourStrategy implements Algorithm {
         this.start = start;
     }
 
-    public void findSolution(ArrayList<City> cities) {
+    public void findSolution() {
 
         int[][] distanceMatrix;
         int currPos, tempPos, j, len, bestCost, temp;
@@ -35,33 +39,34 @@ public class NearestNeighbourStrategy implements Algorithm {
         len = distanceMatrix.length;
         bestCost = Integer.MAX_VALUE;
 
-        while (!this.solution.isFinished()) {
-            this.solution.addCity(cities.get(currPos));
+        while (!tour.isFinish()) {
+            this.tour.addCity(currPos);
 
             for (j = 0; j < len; j++) {
                 temp = distanceMatrix[currPos][j];
-                if (currPos != j && !this.solution.isPositionVisited(j)) {
+                if (currPos != j && !this.tour.isCityVisited(j)) {
                     if (temp < bestCost) {
                         bestCost = temp;
                         tempPos = j;
                     }
                 }
             }
+
+            this.tour.addCost(distanceMatrix[currPos][tempPos]);
             currPos = tempPos;
-            this.solution.addCost(bestCost);
             bestCost = Integer.MAX_VALUE;
 
         }
 
 //        add last cost
-        this.solution.addCost(distanceMatrix[currPos][start]);
+        this.tour.addCost(distanceMatrix[currPos][start]);
 
 
     }
 
 
     public Tour getSolution() {
-        return this.solution;
+        return this.tour;
     }
 
     public void setWorld(Graph world) {

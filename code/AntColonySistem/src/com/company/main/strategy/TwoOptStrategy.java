@@ -8,6 +8,10 @@ import com.company.main.graph.Graph;
 public class TwoOptStrategy implements Algorithm {
     private Graph world;
 
+    public  TwoOptStrategy(Graph world){
+        this.world = world;
+    }
+
     public int findSolution(int[] cities) {
         int bestGain = Integer.MAX_VALUE, localGain = 0;
         int first = -1, second = -1, iteration = 0, a = 0, b = 0, c = 0, d = 0;
@@ -82,7 +86,4 @@ public class TwoOptStrategy implements Algorithm {
     }
 
 
-    public void setWorld(Graph world) {
-        this.world = world;
-    }
 }

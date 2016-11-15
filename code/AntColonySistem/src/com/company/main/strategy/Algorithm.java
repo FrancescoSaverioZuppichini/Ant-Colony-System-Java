@@ -1,7 +1,6 @@
 package com.company.main.strategy;
 
 import com.company.main.graph.City;
-import com.company.main.graph.Tour;
 
 import java.util.ArrayList;
 
